@@ -1,0 +1,11 @@
+import {useState} from 'react';import {api} from '../../services/api';import {useGet,Box,Msg,run,form,Btn,day} from '../ui';
+export default function Enquiries(){const [st,setSt]=useState(''),[d,load,e]=useGet('/enquiries',{status:st||undefined}),[rep]=useGet('/reports/recovery'),[m,setM]=useState('');
+const add=form((v,f)=>run(setM,()=>api.post('/enquiries',{name:v.name,phone:v.phone,email:v.email,notes:v.notes,consent:!!v.consent}),()=>{f.reset();load()}));
+const follow=id=>run(setM,async()=>{const r=(await api.post(`/enquiries/${id}/follow-up`)).data;if(r.emailed)setM('Email sent.');else if(r.whatsapp)window.open(r.whatsapp,'_blank');if(r.note)setM(r.note)},load);
+const set=(id,status)=>run(setM,()=>api.patch('/enquiries/'+id,{status}),load);
+if(e)return <Box title="Enquiries"><p className="text-sm text-ink/70">{e}</p></Box>;
+const conv=(rep||[]).reduce((a,x)=>({n:a.n+x.n,c:a.c+(x._id.status==='converted'?x.n:0)}),{n:0,c:0});
+return <Box title="Enquiries and booking recovery"><Msg m={m}/>{conv.n>0&&<p className="text-sm mb-3">Enquiry to booking conversion: <b>{(conv.c/conv.n*100).toFixed(0)}%</b> ({conv.c} of {conv.n})</p>}
+<form onSubmit={add} className="grid sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-4"><input required name="name" placeholder="Name" className="inp"/><input required name="phone" placeholder="Phone" className="inp"/><input name="email" type="email" placeholder="Email" className="inp"/><input name="notes" placeholder="Note" className="inp"/><button className="btn">Log WhatsApp enquiry</button><label className="text-xs sm:col-span-5"><input type="checkbox" name="consent"/> Guest agreed to follow-up emails</label></form>
+<select className="inp !w-auto mb-3" value={st} onChange={e=>setSt(e.target.value)}><option value="">All</option>{['new','contacted','converted','lost'].map(s=><option key={s}>{s}</option>)}</select>
+{d?.map(x=><div key={x._id} className="flex justify-between flex-wrap gap-2 border-t border-ink/10 py-2 text-sm"><span>{x.name} · {x.phone} · {x.source} · <b>{x.status}</b>{x.checkIn&&` · ${day(x.checkIn)}`} {x.notes}</span><span className="space-x-2"><Btn onClick={()=>follow(x._id)}>Follow up</Btn>{x.status!=='converted'&&<Btn onClick={()=>set(x._id,'lost')}>Lost</Btn>}</span></div>)}{d&&!d.length&&<p className="text-sm text-ink/60">No enquiries yet.</p>}</Box>}

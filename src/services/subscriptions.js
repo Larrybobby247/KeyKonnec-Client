@@ -1,0 +1,11 @@
+import {api} from './api';
+export const plans=()=>api.get('/plans');
+export const current=()=>api.get('/subscriptions/current');
+export const checkout=plan=>api.post('/subscriptions/checkout',{plan});
+export const trial=plan=>api.post('/subscriptions/trial',{plan});
+export const cancel=()=>api.post('/subscriptions/cancel');
+export const resume=()=>api.post('/subscriptions/resume');
+export const transactions=p=>api.get('/subscriptions/transactions',{params:p});
+export const retry=id=>api.post(`/subscriptions/transactions/${id}/retry`);
+export const verifyRef=ref=>api.get('/subscriptions/verify/'+ref);
+export const receiptUrl=id=>`${import.meta.env.VITE_API_URL}/subscriptions/transactions/${id}/receipt`;

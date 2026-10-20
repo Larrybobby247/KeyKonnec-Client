@@ -1,0 +1,10 @@
+import {api} from './api';
+export const site=(slug,preview)=>preview?api.get('/website/preview'):api.get(`/public/${slug}`);
+export const availability=(slug,p)=>api.get(`/public/${slug}/availability`,{params:p});
+export const quote=(slug,p)=>api.get(`/public/${slug}/quote`,{params:p});
+export const book=(slug,b)=>api.post(`/public/${slug}/book`,b);
+export const lookup=(slug,b)=>api.post(`/public/${slug}/lookup`,b);
+export const booking=(ref,token)=>api.get(`/public/booking/${ref}`,{params:{token}});
+export const payBalance=(ref,token)=>api.post(`/public/booking/${ref}/pay-balance`,null,{params:{token}});
+export const feedback=(ref,token,b)=>api.post(`/public/booking/${ref}/feedback`,b,{params:{token}});
+export const enquire=(slug,b)=>api.post(`/public/${slug}/enquiry`,b);

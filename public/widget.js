@@ -1,0 +1,4 @@
+(function(){var s=document.currentScript,slug=s.getAttribute('data-hotel'),host=s.src.replace(/\/widget\.js.*$/,''),b=document.createElement('button');
+b.textContent=s.getAttribute('data-label')||'Book now';b.style.cssText='position:fixed;right:20px;bottom:20px;z-index:99999;background:#1C5D57;color:#fff;border:0;border-radius:999px;padding:14px 22px;font:700 15px sans-serif;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.25)';
+b.onclick=function(){var o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100000;display:grid;place-items:center';
+o.innerHTML='<iframe title="Book a room" src="'+host+'/h/'+slug+'/rooms?embed=1" style="width:min(560px,96vw);height:92vh;border:0;border-radius:16px;background:#fff"></iframe>';o.onclick=function(e){if(e.target===o)o.remove()};document.body.appendChild(o)};document.body.appendChild(b)})();

@@ -1,0 +1,3 @@
+import {Outlet,useLocation} from 'react-router-dom';import {useEffect} from 'react';import Nav from '../components/marketing/Nav';import Footer from '../components/marketing/Footer';import {useReveal} from '../components/ui';
+export default function MarketingLayout(){const {pathname,hash}=useLocation();useReveal();useEffect(()=>{if(hash){setTimeout(()=>document.getElementById(hash.slice(1))?.scrollIntoView({behavior:'smooth'}),60)}else scrollTo(0,0)},[pathname,hash]);
+ return <div className="overflow-x-hidden"><a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3">Skip to content</a><Nav/><main id="main"><Outlet/></main><Footer/></div>}

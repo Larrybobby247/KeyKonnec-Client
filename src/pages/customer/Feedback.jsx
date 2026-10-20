@@ -1,0 +1,5 @@
+import {useState} from 'react';import {useParams,useSearchParams} from 'react-router-dom';import {api,err} from '../../services/api';
+export default function Feedback(){const {ref}=useParams(),[sp]=useSearchParams(),[n,setN]=useState(0),[c,setC]=useState(''),[m,setM]=useState(''),[done,setDone]=useState(false);
+const send=async e=>{e.preventDefault();try{await api.post(`/public/booking/${ref}/feedback`,{rating:n,comment:c||undefined},{params:{token:sp.get('token')}});setDone(true)}catch(x){setM(err(x))}};
+return <main className="min-h-screen grid place-items-center p-5"><form onSubmit={send} className="glass p-6 w-full max-w-sm grid gap-3"><h1 className="font-display text-3xl">{done?'Thank you':'How was your stay?'}</h1>
+{!done&&<><div className="flex gap-2 text-3xl">{[1,2,3,4,5].map(i=><button type="button" key={i} aria-label={i+' stars'} onClick={()=>setN(i)} className={i<=n?'text-brass':'text-ink/20'}>★</button>)}</div><textarea className="inp" placeholder="Anything we should know? (optional)" value={c} onChange={e=>setC(e.target.value)}/>{m&&<p role="alert" className="text-sm">{m}</p>}<button className="btn" disabled={!n}>Send</button></>}</form></main>}

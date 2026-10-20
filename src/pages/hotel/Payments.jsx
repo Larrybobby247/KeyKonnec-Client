@@ -1,0 +1,2 @@
+import {useDash} from '../../components/dashboard/DashContext';import {Payments} from '../../components/dashboard/MoneyTools';
+export default function PaymentsPage(){const p=useDash();return <><div><h1 className="font-display text-3xl">Payments</h1><p className="text-sm text-muted">Guest payments for accommodation. Your keykonnec subscription payments are under Subscription & Transactions.</p></div><Payments role={p.role}/></>}

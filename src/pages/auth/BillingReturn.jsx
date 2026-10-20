@@ -1,0 +1,5 @@
+import {useEffect,useState} from 'react';import {useSearchParams,Link} from 'react-router-dom';import {CheckCircle2,XCircle,Loader2} from 'lucide-react';import {verifyRef} from '../../services/subscriptions';
+export default function BillingReturn(){const [sp]=useSearchParams(),[r,setR]=useState(null),[bad,setBad]=useState(false);
+ useEffect(()=>{verifyRef(sp.get('reference')).then(x=>setR(x.data)).catch(()=>setBad(true))},[]);
+ const ok=r&&r.status==='success';return <main className="min-h-screen grid place-items-center p-5"><div className="card p-8 max-w-sm text-center pop">{!r&&!bad?<Loader2 className="spin mx-auto text-secondary" size={44}/>:ok?<CheckCircle2 className="mx-auto text-secondary" size={48}/>:<XCircle className="mx-auto text-red-600" size={48}/>}
+ <h1 className="font-display text-2xl mt-3">{bad?'We could not check your payment':!r?'Checking your payment…':ok?'Your plan is active':'Payment '+r.status}</h1><p className="text-sm text-muted mt-1">{ok?'Your new features are ready.':'Your plan only changes after Paystack confirms the payment.'}</p><Link className="btn mt-5" to="/dashboard/subscription">Go to subscription</Link></div></main>}

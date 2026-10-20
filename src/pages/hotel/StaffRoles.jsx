@@ -1,0 +1,2 @@
+import {useDash} from '../../components/dashboard/DashContext';import {Staff} from '../../components/dashboard/TeamTools';
+export default function StaffRoles(){const p=useDash();return <><h1 className="font-display text-3xl">Staff & Roles</h1><Staff hotel={p.hotel}/><p className="text-xs text-muted">Owners see everything. Managers manage bookings, rooms, website and reports. Receptionists handle reservations and guests. Accountants see payments and reports.</p></>}

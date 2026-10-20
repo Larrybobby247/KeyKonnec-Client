@@ -1,0 +1,523 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ========================================
+   THEME CONFIGURATION
+======================================== */
+
+@theme {
+  --color-primary: #0D2B2A;
+  --color-secondary: #1C5D57;
+  --color-accent: #D9A441;
+  --color-mist: #EEF4F2;
+  --color-ink: #202B2A;
+  --color-muted: #74817E;
+  --color-teal: #1C5D57;
+  --color-brass: #D9A441;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+/* ========================================
+   GLOBAL STYLES
+======================================== */
+
+:root {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background-color: #FFFFFF;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-mist text-ink font-sans antialiased;
+
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background-color: var(--color-mist);
+}
+
+/* ========================================
+   TYPOGRAPHY
+======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  color: var(--color-primary);
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+}
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .rv {
+    opacity: 1;
+    transform: none;
+  }
+
+  .draw {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ========================================
+   CARDS AND GLASS EFFECTS
+======================================== */
+
+.card,
+.glass {
+  @apply bg-white border border-ink/10 rounded-2xl shadow-[0_10px_30px_-18px_rgba(13,43,42,.35)];
+}
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-secondary text-white font-semibold px-5 py-2.5 text-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:bg-primary disabled:opacity-50 disabled:hover:translate-y-0;
+}
+
+.btn-accent {
+  @apply bg-accent text-primary hover:bg-accent hover:brightness-95;
+}
+
+.btn-ghost {
+  @apply bg-transparent text-ink border border-ink/20 hover:bg-white hover:text-ink;
+}
+
+/* ========================================
+   FORM INPUTS
+======================================== */
+
+.inp {
+  @apply w-full rounded-xl border border-ink/15 bg-white px-3 py-2.5 text-sm transition focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent;
+}
+
+select.inp {
+  @apply pr-8;
+}
+
+/* ========================================
+   HERO BACKGROUND
+======================================== */
+
+.hero-bg {
+  background:
+    radial-gradient(
+      1200px 500px at 85% -10%,
+      rgba(28, 93, 87, 0.28),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 400px at 0% 100%,
+      rgba(217, 164, 65, 0.25),
+      transparent 60%
+    );
+}
+
+/* ========================================
+   FLOATING ANIMATIONS
+======================================== */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.float2 {
+  animation: float 7.5s ease-in-out infinite reverse;
+}
+
+.float3 {
+  animation: float 9s ease-in-out infinite;
+}
+
+/* ========================================
+   POP ANIMATION
+======================================== */
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pop {
+  animation: pop 0.5s ease both;
+}
+
+/* ========================================
+   SVG DRAWING ANIMATION
+======================================== */
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.draw {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: draw 1.4s ease forwards;
+}
+
+/* ========================================
+   GROW ANIMATION
+======================================== */
+
+@keyframes grow {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.grow {
+  transform-origin: bottom;
+  transform-box: fill-box;
+  animation: grow 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* ========================================
+   BLINK ANIMATION
+======================================== */
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.blink {
+  animation: blink 3s ease-in-out infinite;
+}
+
+/* ========================================
+   SLIDE-UP ANIMATION
+======================================== */
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease both;
+}
+
+/* ========================================
+   SLIDE-IN ANIMATION
+======================================== */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease both;
+}
+
+/* ========================================
+   SPIN ANIMATIONS
+======================================== */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+.spin-slow {
+  animation: spin 24s linear infinite;
+}
+
+/* ========================================
+   PROGRESS BAR ANIMATION
+======================================== */
+
+@keyframes fillbar {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ========================================
+   MARQUEE ANIMATION
+======================================== */
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* ========================================
+   SCROLL REVEAL
+======================================== */
+
+.rv {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.rv.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   HOVER LIFT EFFECT
+======================================== */
+
+.lift {
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.4s ease;
+}
+
+.lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 50px -22px rgba(13, 43, 42, 0.45);
+}
+
+
+/* ---- scrollbars: thin, rounded, low-contrast; hidden on horizontal tab strips ---- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a9c2bd transparent;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #b7ccc7;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8fb0a9;
+  background-clip: content-box;
+  border: 2px solid transparent;
+}
+.sidebar-scroll {
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  background-clip: content-box;
+  border: 1px solid transparent;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+  background-clip: content-box;
+  border: 1px solid transparent;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* ---- sidebar links: solid, clearly readable colours on the dark background ---- */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: #cfe2dd;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.nav-item.active {
+  background: #d9a441;
+  color: #0d2b2a;
+  font-weight: 600;
+}
+.nav-item svg {
+  flex-shrink: 0;
+}
+/* ---- layout safety: no grid blow-outs, wrapping rows on phones, fluid media ---- */
+.grid > * {
+  min-width: 0;
+}
+.card {
+  min-width: 0;
+  max-width: 100%;
+}
+img,
+svg,
+video {
+  max-width: 100%;
+}
+.break-anywhere {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 639px) {
+  main .flex.justify-between:not(.nowrap) {
+    flex-wrap: wrap;
+    column-gap: 0.75rem;
+    row-gap: 0.25rem;
+  }
+  main .flex.justify-between > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+/* ---- submit buttons show progress and cannot be double-clicked ---- */
+.btn[data-loading] {
+  opacity: 0.75;
+  pointer-events: none;
+}
+.btn[data-loading]::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
