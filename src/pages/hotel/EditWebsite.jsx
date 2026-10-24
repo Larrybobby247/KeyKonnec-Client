@@ -1,10 +1,12 @@
 import {useState,useEffect} from 'react';import {Save,Eye,Plus,Trash2,Star} from 'lucide-react';import {useWebsite,WebsiteActions} from './PublicWebsiteLink';import {Spinner,Msg,Box,Tabs,Badge} from '../../components/ui';import SingleImage from '../../components/dashboard/SingleImage';import * as web from '../../services/website';import {err} from '../../services/api';
 const AM=['Free Wi-Fi','Air conditioning','24-hour reception','Power backup','Parking','Swimming pool','Gym','Airport pickup','Laundry','Security','Breakfast'];
+// Defined outside the page component on purpose: a component created inside another component is a new type on every render, which remounts the inputs and drops focus after each keystroke.
+const F=({t,children})=><label className="text-sm font-semibold block">{t}<div className="font-normal mt-1">{children}</div></label>;
 export default function EditWebsite(){const {d,load,e}=useWebsite(),[c,setC]=useState(null),[tab,setTab]=useState('hero'),[m,setM]=useState(''),[ok,setOk]=useState(''),[saving,setS]=useState(false);
  useEffect(()=>{if(d&&!c)setC({hero:{},about:{},amenities:[],reviews:[],contact:{},policies:{},gallery:[],...d.draft})},[d]);if(e)return <Msg m={e}/>;if(!c)return <Spinner/>;
  const set=(k,v)=>setC(x=>({...x,[k]:{...x[k],...v}})),save=async()=>{setS(true);setM('');setOk('');try{await web.saveDraft(c);setOk('Draft saved');load();return true}catch(x){setM(err(x));return false}finally{setS(false)}};
  const preview=async()=>{if(await save())window.open(`/h/${d.slug}?preview=1`,'_blank')};
- const F=({t,children})=><label className="text-sm font-semibold block">{t}<div className="font-normal mt-1">{children}</div></label>;
+
  return <><div className="flex flex-wrap gap-3 items-center justify-between"><div><h1 className="font-display text-3xl">Edit Website</h1><p className="text-sm text-muted">Changes stay in your draft until you publish.</p></div><div className="flex gap-2 items-center"><Badge tone={d.status==='published'?'green':'amber'}>{d.status}{d.dirty&&d.status==='published'?' · unpublished changes':''}</Badge></div></div>
  <Tabs value={tab} onChange={setTab} tabs={[['hero','Homepage'],['about','About'],['amenities','Amenities'],['reviews','Reviews'],['contact','Contact'],['policies','Policies']]}/>
  <Box title={{hero:'Homepage banner',about:'About your hotel',amenities:'Amenities',reviews:'Guest reviews',contact:'Contact information',policies:'Policies'}[tab]}><div className="grid gap-4 max-w-2xl">
