@@ -1,6 +1,8 @@
 import axios from 'axios';
 export const API=import.meta.env.VITE_API_URL;
 export const api=axios.create({baseURL:API,withCredentials:true,headers:{'X-Requested-With':'keykonnec'}});
+// Public hotel website calls carry no cookies, so a hotel site on its own domain or subdomain can call the API.
+export const publicApi=axios.create({baseURL:API,withCredentials:false,headers:{'X-Requested-With':'keykonnec'}});
 export const err=e=>e?.response?.data?.error||(e&&!e.response&&(e.code==='ERR_NETWORK'||e.message==='Network Error')?'Network problem. Check your connection and retry.':null)||e?.message||'Something went wrong. Try again.';
 export const naira=n=>'₦'+Number(n||0).toLocaleString('en-NG');
 export const day=d=>d?String(d).slice(0,10):'';
