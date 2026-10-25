@@ -521,3 +521,45 @@ video {
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
+
+/* ========================================
+   LOADING SCREEN (logo)
+======================================== */
+.kk-logo-wrap{position:relative;display:grid;place-items:center;width:112px;height:112px}
+.kk-logo{position:relative;z-index:1;max-width:112px;max-height:112px;width:auto;height:auto;object-fit:contain;animation:kk-scale 1.6s ease-in-out infinite}
+.kk-fallback{display:grid;place-items:center;width:88px;height:88px;border-radius:9999px;background:var(--color-primary);color:var(--color-accent)}
+.kk-ring{position:absolute;inset:-14px;border-radius:9999px;border:2px solid color-mix(in srgb,var(--color-accent) 55%,transparent);animation:kk-ring 1.8s ease-out infinite}
+.kk-ring2{animation-delay:.9s}
+.kk-dots{display:flex;flex-direction:column;gap:9px}
+.kk-dots i{display:block;width:9px;height:9px;border-radius:9999px;background:var(--color-secondary);opacity:.35;animation:kk-bob 1.2s ease-in-out infinite}
+.kk-dots i:nth-child(2){animation-delay:.15s;background:var(--color-accent);margin-left:10px}
+.kk-dots i:nth-child(3){animation-delay:.3s}
+.kk-dots.right i{animation-direction:reverse}
+.kk-bar{margin-top:34px;width:120px;height:3px;border-radius:9999px;background:color-mix(in srgb,var(--color-ink) 10%,transparent);overflow:hidden}
+.kk-bar i{display:block;height:100%;width:40%;border-radius:9999px;background:var(--color-accent);animation:kk-slide 1.3s ease-in-out infinite}
+@keyframes kk-scale{0%,100%{transform:scale(.88)}50%{transform:scale(1.08)}}
+@keyframes kk-ring{0%{transform:scale(.7);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+@keyframes kk-bob{0%,100%{transform:translateY(0) scale(.8);opacity:.3}50%{transform:translateY(-7px) scale(1.15);opacity:1}}
+@keyframes kk-slide{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
+
+/* ========================================
+   EVENT CALENDAR (month view)
+======================================== */
+.kk-cal-month{animation:kk-month-in .35s cubic-bezier(.2,.8,.2,1) both}
+.kk-cal-month.back{animation-name:kk-month-in-back}
+@keyframes kk-month-in{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@keyframes kk-month-in-back{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.kk-ev{animation:kk-ev-pop .4s cubic-bezier(.2,.9,.3,1.2) both;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+.kk-ev:hover{transform:translateY(-1px);box-shadow:0 4px 10px -4px rgba(13,43,42,.4);filter:brightness(1.05)}
+@keyframes kk-ev-pop{from{opacity:0;transform:scale(.85) translateY(4px)}to{opacity:1;transform:none}}
+.kk-today{position:relative}
+.kk-today::after{content:"";position:absolute;inset:-3px;border-radius:9999px;border:2px solid var(--color-accent);animation:kk-today 2s ease-out infinite}
+@keyframes kk-today{0%{transform:scale(.85);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+.kk-day{transition:background-color .15s ease}
+.kk-day:hover{background-color:color-mix(in srgb,var(--color-mist) 70%,white)}
+.kk-sheet{animation:kk-sheet .25s ease-out both}
+@keyframes kk-sheet{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){
+  .kk-logo,.kk-ring,.kk-dots i,.kk-bar i,.kk-cal-month,.kk-ev,.kk-today::after,.kk-sheet{animation:none!important}
+  .kk-logo{transform:none}
+}
