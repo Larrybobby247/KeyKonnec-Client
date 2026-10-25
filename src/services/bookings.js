@@ -1,7 +1,7 @@
 import {api,publicApi as p} from './api';
 export const site=(slug,preview)=>preview?api.get('/website/preview'):p.get(`/public/${slug}`);
-export const availability=(slug,p)=>p.get(`/public/${slug}/availability`,{params:p});
-export const quote=(slug,p)=>p.get(`/public/${slug}/quote`,{params:p});
+export const availability=(slug,params)=>p.get(`/public/${slug}/availability`,{params});
+export const quote=(slug,params)=>p.get(`/public/${slug}/quote`,{params});
 export const book=(slug,b)=>p.post(`/public/${slug}/book`,b);
 export const lookup=(slug,b)=>p.post(`/public/${slug}/lookup`,b);
 export const booking=(ref,token)=>p.get(`/public/booking/${ref}`,{params:{token}});
