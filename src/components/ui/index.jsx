@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Eye, EyeOff, X, Inbox, RefreshCw, WifiOff } from "lucide-react";
-import { api, err } from "../../services/api";
-export { day } from "../../services/api";
+import { api, publicApi, err } from "../../services/api";
+import AppLoader from "./AppLoader";
+export { day, today } from "../../services/api";
 // ---- data fetching: aborts outdated requests, ignores stale responses, de-duplicates and caches ONLY requests that opt in with {stale}.
 // Cache keys include the signed-in user (or 'public' for shared public data), so one user's data is never shown to another. Bookings, payments and other critical data are never cached.
 let scope = "public";
@@ -17,6 +18,8 @@ export const clearCache = () => {
 export const useGet = (url, params, opt) => {
   const stale = (opt && opt.stale) || 0,
     shared = !!(opt && opt.shared),
+    // Shared data (such as the plan list) is public, so it is requested without cookies. The API only allows cookie-free calls for public routes; sending cookies there makes the browser block the response.
+    client = shared ? publicApi : api,
     k = JSON.stringify(params || {}),
     key = (shared ? "public" : scope) + "|" + url + "|" + k;
   const [d, setD] = useState(() => {
@@ -47,7 +50,7 @@ export const useGet = (url, params, opt) => {
       if (stale) {
         p = inflight.get(key);
         if (!p || force) {
-          p = api
+          p = client
             .get(url, { params })
             .then((r) => {
               cache.set(key, { d: r.data, t: Date.now() });
@@ -59,7 +62,7 @@ export const useGet = (url, params, opt) => {
       } else {
         const c = new AbortController();
         ctl.current = c;
-        p = api.get(url, { params, signal: c.signal }).then((r) => r.data);
+        p = client.get(url, { params, signal: c.signal }).then((r) => r.data);
       }
       return p
         .then((x) => {
@@ -119,20 +122,7 @@ export const TableSkeleton = ({ rows = 5 }) => (
     ))}
   </div>
 );
-export const ShellSkeleton = () => (
-  <div role="status" aria-label="Loading" className="flex min-h-screen">
-    <div className="hidden lg:block w-64 bg-primary shrink-0" />
-    <div className="flex-1 min-w-0 p-4 sm:p-6 grid gap-4 content-start">
-      <Skeleton className="h-12 w-full" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {[0, 1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-20" />
-        ))}
-      </div>
-      <Skeleton className="h-64 w-full" />
-    </div>
-  </div>
-);
+export const ShellSkeleton = () => <AppLoader />;
 export const ErrorRetry = ({ e, retry }) =>
   e ? (
     <div
