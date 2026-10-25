@@ -1,4 +1,4 @@
-import {lazy,Suspense} from 'react';import {Routes,Route,Navigate,useParams} from 'react-router-dom';import {AuthProvider,useAccess} from './providers/AuthProvider';import {Spinner,ShellSkeleton} from '../components/ui';
+import {lazy,Suspense} from 'react';import {Routes,Route,Navigate,useParams} from 'react-router-dom';import {AuthProvider,useAccess} from './providers/AuthProvider';import {Spinner,ShellSkeleton} from '../components/ui';import AppLoader from '../components/ui/AppLoader';
 import MarketingLayout from '../layouts/MarketingLayout';import Landing from '../pages/marketing/Landing';
 // Everything except the landing page is loaded on demand, so visitors only download the code for the page they open.
 const L=f=>lazy(f);
@@ -12,7 +12,7 @@ const G=(id,el)=><Guard id={id}>{el}</Guard>;
 const Shell=()=>{const {slug}=useParams();return <CustomerLayout slug={slug} base={'/h/'+slug}/>};
 export const CustomerShell=CustomerLayout;
 export const customerRoutes=()=><><Route index element={<Home/>}/><Route path="rooms" element={<CRooms/>}/><Route path="rooms/:roomId" element={<RoomDetails/>}/><Route path="checkout" element={<BookingCheckout/>}/><Route path="confirmation/:ref" element={<BookingConfirmation/>}/><Route path="lookup" element={<BookingLookup/>}/><Route path="gallery" element={<Gallery/>}/><Route path="about" element={<CAbout/>}/><Route path="contact" element={<Contact/>}/><Route path="privacy" element={<Policy kind="privacy"/>}/><Route path="terms" element={<Policy kind="terms"/>}/><Route path="cancellation" element={<Policy kind="cancellation"/>}/></>;
-export default function Router(){return <Suspense fallback={<div className="max-w-5xl mx-auto p-6"><Spinner/></div>}><Routes>
+export default function Router(){return <Suspense fallback={<AppLoader/>}><Routes>
  <Route element={<MarketingLayout/>}><Route path="/" element={<Landing/>}/><Route path="/about" element={<About/>}/><Route path="/faq" element={<Faq/>}/><Route path="/legal/:doc" element={<Legal/>}/></Route>
  <Route path="/login" element={<Auth/>}/><Route path="/register" element={<Auth mode="register"/>}/><Route path="/forgot" element={<Auth mode="forgot"/>}/><Route path="/reset" element={<Auth mode="reset"/>}/><Route path="/verify" element={<Auth mode="verify"/>}/>
  <Route path="/billing/return" element={<AuthProvider><BillingReturn/></AuthProvider>}/><Route path="/booking/:ref" element={<BookingRedirect/>}/><Route path="/feedback/:ref" element={<Feedback/>}/>
