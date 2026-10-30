@@ -62,16 +62,28 @@ body {
    TYPOGRAPHY
 ======================================== */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-display);
-  color: var(--color-primary);
-  line-height: 1.2;
-  font-weight: 600;
+/* In the base layer so Tailwind utilities (text-white, text-accent...) can override the default heading colour.
+   Unlayered rules always beat layered utilities, which is why heading text could never be made white before. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  /* Headings inside a dark section: add class "on-dark" to the section. */
+  .on-dark h1,
+  .on-dark h2,
+  .on-dark h3,
+  .on-dark h4 {
+    color: #fff;
+  }
 }
 
 .font-display {
