@@ -12,3 +12,4 @@ export const uploadToCloud=(file,onProgress)=>new Promise(async(res,rej)=>{try{c
  const x=new XMLHttpRequest();x.open('POST',`https://api.cloudinary.com/v1_1/${s.cloudName}/image/upload`);x.upload.onprogress=e=>e.lengthComputable&&onProgress(Math.round(e.loaded/e.total*100));
  x.onload=()=>{let r={};try{r=JSON.parse(x.responseText)}catch{}x.status<300&&r.secure_url?res({url:r.secure_url,publicId:r.public_id,width:r.width,height:r.height,format:r.format,bytes:r.bytes}):rej(new Error((r.error&&r.error.message)||'Upload failed'))};
  x.onerror=()=>rej(new Error('Network problem. Check your connection and retry.'));x.send(fd)}catch(e){rej(new Error(err(e)))}});
+export const deleteRoom=id=>api.delete('/rooms/'+id);
