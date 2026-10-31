@@ -1,0 +1,11 @@
+import {useState,useEffect} from 'react';import {BedDouble,Check,Loader2} from 'lucide-react';import {useGet,Msg,Spinner} from '../ui';import {api,err} from '../../services/api';
+// Pick the exact room(s) for a booking. Rooms already held by another stay on those dates, or in maintenance, are greyed out, so one room can never be given to two guests.
+export default function RoomAssign({resId,onSaved}){const [d,load,e]=useGet(`/reservations/${resId}/rooms`),[sel,setSel]=useState([]),[busy,setBusy]=useState(false),[m,setM]=useState(''),[ok,setOk]=useState(false);
+ useEffect(()=>{if(d)setSel(d.rooms.filter(r=>r.mine).map(r=>r._id))},[d]);
+ if(e)return <Msg m={e}/>;if(!d)return <Spinner/>;
+ const toggle=r=>{if(!r.free)return;setOk(false);setSel(s=>s.includes(r._id)?s.filter(x=>x!==r._id):s.length<d.qty?[...s,r._id]:d.qty===1?[r._id]:s)},
+ save=async()=>{setBusy(true);setM('');try{await api.post(`/reservations/${resId}/assign-rooms`,{rooms:sel});setOk(true);load();onSaved&&onSaved()}catch(x){setM(err(x))}setBusy(false)};
+ return <div className="grid gap-3"><p className="text-xs text-muted">Choose {d.qty>1?`up to ${d.qty} rooms`:'the room'} for this stay. {d.rooms.filter(r=>r.free).length} of {d.rooms.length} rooms of this type are free on these dates.</p>
+  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">{d.rooms.map(r=>{const on=sel.includes(r._id);return <button type="button" key={r._id} disabled={!r.free} onClick={()=>toggle(r)} aria-pressed={on} className={`rounded-xl border px-3 py-2.5 text-left transition ${on?'border-secondary bg-secondary text-white':r.free?'border-ink/15 bg-white hover:border-secondary':'border-ink/10 bg-mist text-muted cursor-not-allowed'}`}><span className="flex items-center justify-between gap-1 font-bold">{r.number}{on?<Check size={15}/>:<BedDouble size={14} className="opacity-60"/>}</span><span className={`block text-[11px] ${on?'text-white/80':'text-muted'}`}>{r.reason||(r.mine?'assigned':'free')}</span></button>})}</div>
+  <Msg m={m}/>{ok&&<p className="text-sm text-emerald-700 font-semibold">Saved. These rooms are now held for this guest.</p>}
+  <button type="button" className="btn" disabled={busy||!sel.length} onClick={save}>{busy&&<Loader2 size={16} className="spin"/>}Save room{sel.length>1?'s':''}</button></div>}
