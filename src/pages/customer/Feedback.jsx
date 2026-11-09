@@ -1,4 +1,4 @@
-import {useState} from 'react';import {useParams,useSearchParams} from 'react-router-dom';import {api,err} from '../../services/api';
+import {useState} from 'react';import {useParams,useSearchParams} from 'react-router-dom';import {publicApi as api,err} from '../../services/api';
 export default function Feedback(){const {ref}=useParams(),[sp]=useSearchParams(),[n,setN]=useState(0),[c,setC]=useState(''),[m,setM]=useState(''),[done,setDone]=useState(false);
 const send=async e=>{e.preventDefault();try{await api.post(`/public/booking/${ref}/feedback`,{rating:n,comment:c||undefined},{params:{token:sp.get('token')}});setDone(true)}catch(x){setM(err(x))}};
 return <main className="min-h-screen grid place-items-center p-5"><form onSubmit={send} className="glass p-6 w-full max-w-sm grid gap-3"><h1 className="font-display text-3xl">{done?'Thank you':'How was your stay?'}</h1>
