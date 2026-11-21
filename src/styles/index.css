@@ -538,7 +538,7 @@ video {
    LOADING SCREEN (logo)
 ======================================== */
 .kk-logo-wrap{position:relative;display:grid;place-items:center;width:112px;height:112px}
-.kk-logo{position:relative;z-index:1;max-width:112px;max-height:112px;width:auto;height:auto;object-fit:contain;animation:kk-scale 1.6s ease-in-out infinite}
+.kk-logo{position:relative;z-index:1;max-width:112px;max-height:112px;object-fit:contain;animation:kk-scale 1.6s ease-in-out infinite}
 .kk-fallback{display:grid;place-items:center;width:88px;height:88px;border-radius:9999px;background:var(--color-primary);color:var(--color-accent)}
 .kk-ring{position:absolute;inset:-14px;border-radius:9999px;border:2px solid color-mix(in srgb,var(--color-accent) 55%,transparent);animation:kk-ring 1.8s ease-out infinite}
 .kk-ring2{animation-delay:.9s}
