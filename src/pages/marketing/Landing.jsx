@@ -146,7 +146,7 @@ export default function Landing() {
               <ArrowRight size={40} className="text-accent" />
             </div>
             <div className="card p-6 rv bg-primary text-white">
-              <h3 className="font-display text-2xl">One system</h3>
+              <h3 className="font-display text-2xl !text-white">One system</h3>
               <ul className="mt-3 grid gap-2 text-sm text-white/85">
                 {[
                   "Every booking in one calendar",
@@ -154,7 +154,7 @@ export default function Landing() {
                   "Every room status in one place",
                   "One link to share with guests",
                 ].map((x) => (
-                  <li key={x} className="flex gap-2 text-ink">
+                  <li key={x} className="flex gap-2 text-white/90">
                     <BadgeCheck size={18} className="text-accent shrink-0" />
                     {x}
                   </li>
@@ -217,7 +217,7 @@ export default function Landing() {
       <section className="px-5 pb-6">
         <div className="max-w-5xl mx-auto rounded-3xl bg-primary text-white p-8 md:p-12 text-center relative overflow-hidden">
           <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full bg-accent/20 spin-slow" />
-          <h2 className="font-display text-3xl md:text-4xl relative">
+          <h2 className="font-display text-3xl md:text-4xl relative !text-white">
             Ready to fill your rooms?
           </h2>
           <p className="text-white/75 mt-2 relative">
