@@ -323,16 +323,48 @@ export const Tabs = ({ tabs, value, onChange }) => (
     ))}
   </div>
 );
+// Scroll reveal. Watches the page for .rv elements, including ones added later (lazy pages, async data),
+// reveals anything already on or above the screen straight away, and never leaves content hidden.
 export const useReveal = () => {
   useEffect(() => {
+    const show = (el) => el.classList.add("in");
+    if (typeof IntersectionObserver === "undefined") {
+      document.querySelectorAll(".rv").forEach(show);
+      return;
+    }
     const io = new IntersectionObserver(
       (es) =>
-        es.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
-      { threshold: 0.12 },
+        es.forEach((e) => {
+          if (e.isIntersecting || e.boundingClientRect.top < 0) {
+            show(e.target);
+            io.unobserve(e.target);
+          }
+        }),
+      { threshold: 0, rootMargin: "0px 0px -6% 0px" },
     );
-    document.querySelectorAll(".rv:not(.in)").forEach((x) => io.observe(x));
-    return () => io.disconnect();
-  });
+    const seen = new WeakSet();
+    const scan = () =>
+      document.querySelectorAll(".rv:not(.in)").forEach((el) => {
+        if (seen.has(el)) return;
+        seen.add(el);
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight) show(el);
+        else io.observe(el);
+      });
+    scan();
+    const mo = new MutationObserver(scan);
+    mo.observe(document.body, { childList: true, subtree: true });
+    // Safety net: if something is still hidden after a few seconds, show it.
+    const t = setTimeout(
+      () => document.querySelectorAll(".rv:not(.in)").forEach(show),
+      3500,
+    );
+    return () => {
+      clearTimeout(t);
+      mo.disconnect();
+      io.disconnect();
+    };
+  }, []);
 };
 export const Counter = ({ to, suffix = "", dur = 1400 }) => {
   const [v, setV] = useState(0),
