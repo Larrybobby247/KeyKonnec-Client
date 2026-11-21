@@ -147,7 +147,7 @@ export default function Landing() {
             </div>
             <div className="card p-6 rv bg-primary text-white">
               <h3 className="font-display text-2xl !text-white">One system</h3>
-              <ul className="mt-3 grid gap-2 text-sm text-white/85">
+              <ul className="mt-3 grid gap-2 text-sm text-accent">
                 {[
                   "Every booking in one calendar",
                   "Every payment verified and recorded",
