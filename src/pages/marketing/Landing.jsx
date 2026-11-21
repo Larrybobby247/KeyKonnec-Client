@@ -154,7 +154,7 @@ export default function Landing() {
                   "Every room status in one place",
                   "One link to share with guests",
                 ].map((x) => (
-                  <li key={x} className="flex gap-2 text-white/90">
+                  <li key={x} className="flex gap-2 text-muted">
                     <BadgeCheck size={18} className="text-accent shrink-0" />
                     {x}
                   </li>
