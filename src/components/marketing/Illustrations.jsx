@@ -1,6 +1,6 @@
 import {useState} from 'react';import {CheckCircle2,Wallet,CalendarDays,BedDouble,Sparkles} from 'lucide-react';
 const P='#0D2B2A',S='#1C5D57',A='#D9A441',M='#EEF4F2';
-export const KeyLogo=({size=28})=><svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="16" r="7" fill="none" stroke={A} strokeWidth="4"/><path d="M18 16h12M26 16v5M22 16v4" stroke={A} strokeWidth="4" strokeLinecap="round" fill="none"/></svg>;
+export {KeyLogo} from '../brand/Logo';
 const Chip=({cls,icon:I,top,sub})=><div className={`absolute card px-3 py-2 flex items-center gap-2 text-xs ${cls}`}><span className="rounded-lg bg-mist p-1.5 text-secondary"><I size={16}/></span><span><b className="block text-[13px]">{top}</b><span className="text-muted">{sub}</span></span></div>;
 export function HeroScene(){const [t,setT]=useState({x:0,y:0});
  const mv=e=>{const r=e.currentTarget.getBoundingClientRect();setT({x:((e.clientX-r.left)/r.width-.5)*10,y:((e.clientY-r.top)/r.height-.5)*-10})};

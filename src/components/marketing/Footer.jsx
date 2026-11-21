@@ -13,7 +13,7 @@ import {
   IoLogoTwitter,
   IoLogoLinkedin,
 } from "react-icons/io5";
-import { KeyLogo } from "./Illustrations";
+import { Logo } from "../brand/Logo";
 import { useGet } from "../ui";
 
 export default function Footer() {
@@ -58,9 +58,8 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-5 py-14 grid gap-10 md:grid-cols-2 lg:grid-cols-5">
         {/* Brand */}
         <div className="lg:col-span-2">
-          <div className="flex items-center gap-2 font-display text-2xl font-bold">
-            <KeyLogo size={30} />
-            key<span className="text-accent -ml-1.5">konnec</span>
+          <div className="flex items-center">
+            <Logo height={40} tone="light" />
           </div>
 
           <p className="mt-4 text-sm text-white/70 max-w-sm">

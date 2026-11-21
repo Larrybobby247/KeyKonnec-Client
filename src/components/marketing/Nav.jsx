@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { KeyLogo } from "./Illustrations";
+import { Logo } from "../brand/Logo";
 const L = [
   ["/#how", "How it works"],
   ["/#features", "Features"],
@@ -17,13 +17,10 @@ export default function Nav() {
       <div className="max-w-6xl mx-auto card !rounded-full px-4 sm:px-5 py-2.5 flex items-center justify-between backdrop-blur bg-white/85">
         <Link
           to="/"
-          className="flex items-center gap-2 font-display text-xl font-bold text-primary"
+          className="flex items-center"
           aria-label="keykonnec home"
         >
-          <span className="bg-primary rounded-full p-1">
-            <KeyLogo size={22} />
-          </span>
-          key<span className="text-accent -ml-1.5">konnec</span>
+          <Logo height={34} />
         </Link>
         <nav
           className="hidden lg:flex gap-6 text-sm font-medium"
