@@ -1,0 +1,21 @@
+import {api} from './api';
+export const status=()=>api.get('/whatsapp/status');
+export const connect=b=>api.post('/whatsapp/connect',b);
+export const connectManual=b=>api.post('/whatsapp/connect-manual',b);
+export const disconnect=()=>api.post('/whatsapp/disconnect');
+export const saveSettings=b=>api.patch('/whatsapp/settings',b);
+export const syncTemplates=()=>api.post('/whatsapp/templates/sync');
+export const buyCredits=pack=>api.post('/whatsapp/credits/checkout',{pack});
+export const verifyCredits=ref=>api.get('/whatsapp/credits/verify/'+ref);
+export const resend=(id,channel)=>api.post(`/whatsapp/bookings/${id}/resend`,{channel});
+export const reply=(id,text)=>api.post(`/whatsapp/conversations/${id}/reply`,{text});
+export const act=(id,what)=>api.post(`/whatsapp/conversations/${id}/${what}`);
+export const sendInfo=(id,b)=>api.post(`/whatsapp/conversations/${id}/send-info`,b);
+// Meta Embedded Signup: loads Facebook's SDK, opens the sign-up pop-up and resolves with {code, phoneNumberId, wabaId}.
+let sdk;
+const loadSdk=(appId,version)=>sdk||(sdk=new Promise((ok,no)=>{window.fbAsyncInit=()=>{window.FB.init({appId,autoLogAppEvents:true,xfbml:false,version});ok(window.FB)};const s=document.createElement('script');s.src='https://connect.facebook.net/en_US/sdk.js';s.async=true;s.onerror=()=>{sdk=null;no(new Error('Could not load Facebook sign-up. Check your connection or ad blocker.'))};document.body.appendChild(s)}));
+export const embeddedSignup=async({appId,configId,graphVersion,coexistence})=>{const FB=await loadSdk(appId,graphVersion);
+ return new Promise((ok,no)=>{let session=null,code=null;const off=()=>window.removeEventListener('message',on),finish=()=>{if(session&&code){off();ok({code,phoneNumberId:session.phone_number_id,wabaId:session.waba_id})}};
+  const on=e=>{let host='';try{host=new URL(e.origin).hostname}catch{return}if(!/(^|\.)facebook\.com$/.test(host))return;try{const d=typeof e.data==='string'?JSON.parse(e.data):e.data;if(d&&d.type==='WA_EMBEDDED_SIGNUP'){if(String(d.event).startsWith('FINISH')){session=d.data;finish()}else if(d.event==='CANCEL'){off();no(new Error('Sign-up was cancelled.'))}}}catch{}};
+  window.addEventListener('message',on);
+  FB.login(r=>{if(r.authResponse&&r.authResponse.code){code=r.authResponse.code;finish()}else{off();no(new Error('Sign-up was cancelled.'))}},{config_id:configId,response_type:'code',override_default_response_type:true,extras:{setup:{},sessionInfoVersion:'3',...(coexistence?{featureType:'whatsapp_business_app_onboarding'}:{})}})})};
